@@ -4,23 +4,10 @@ const {conn, syncAndSeed, models: {Brew, Brewery}} = require('./db')
 app.use(express.urlencoded({extended: false}));
 
 app.get('/', async(req, res, next) => {
-    try{
-  //no includes because I dont want to show the brew just yet
-        const breweries = await Brewery.findAll({
-            include: [{model: Brew}]
-            // where : {
-            //     breweryId: !null
-            // }
-
-        }) 
-
-        
-       
+    try{    
         const brews  = await Brew.findAll()
 
-        
-
-      
+    
         res.send(`
         <html>
             <title>Top Brews</title>
@@ -48,7 +35,7 @@ app.get('/', async(req, res, next) => {
 
 app.get('/brewery/:id', async(req,res,next)=> {
     try{
-        const breweries= await Brewery.findByPk(req.params.id, {
+        const breweries = await Brewery.findByPk(req.params.id, {
             include: [Brew]
 
         })
@@ -66,11 +53,7 @@ app.get('/brewery/:id', async(req,res,next)=> {
             </p>
 
             <h5>come visit us at ${breweries.address}</h5>
-
-            
-
-            
-         
+     
             </body>
 
         </html>
